@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:policy="http://shotaroi.com/integrationhub/soap/policy"
+           targetNamespace="http://shotaroi.com/integrationhub/soap/policy"
+           elementFormDefault="qualified">
+
+    <!-- GetPolicyByNumber Request -->
+    <xs:element name="GetPolicyByNumberRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="policyNumber" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- GetPolicyByNumber Response -->
+    <xs:element name="GetPolicyByNumberResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="policy" type="policy:PolicyType" minOccurs="0"/>
+                <xs:element name="found" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- CreatePolicyLegacy Request -->
+    <xs:element name="CreatePolicyLegacyRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="policyNumber" type="xs:string"/>
+                <xs:element name="customerId" type="xs:string"/>
+                <xs:element name="policyType" type="policy:PolicyTypeEnum"/>
+                <xs:element name="premiumAmount" type="xs:decimal"/>
+                <xs:element name="startDate" type="xs:date"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- CreatePolicyLegacy Response -->
+    <xs:element name="CreatePolicyLegacyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="policy" type="policy:PolicyType"/>
+                <xs:element name="success" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Policy type for SOAP responses -->
+    <xs:complexType name="PolicyType">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="policyNumber" type="xs:string"/>
+            <xs:element name="customerId" type="xs:string"/>
+            <xs:element name="policyType" type="policy:PolicyTypeEnum"/>
+            <xs:element name="premiumAmount" type="xs:decimal"/>
+            <xs:element name="startDate" type="xs:date"/>
+            <xs:element name="status" type="policy:PolicyStatusEnum"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="PolicyTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="LIFE"/>
+            <xs:enumeration value="HOME"/>
+            <xs:enumeration value="CAR"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PolicyStatusEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="PENDING"/>
+            <xs:enumeration value="ACTIVE"/>
+            <xs:enumeration value="CANCELLED"/>
+            <xs:enumeration value="EXPIRED"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>
